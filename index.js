@@ -5,6 +5,7 @@ import router from './Router/index.js';
 import errorHandler from './middlewares/errorMiddleware.js';
 import APIError from './utils/APIError.js';
 import { connectDB } from './utils/db.js';
+import morgan from 'morgan';
 
 const app = express();
 connectDB()
@@ -12,7 +13,7 @@ app.use(express.json())
 app.use(cors({
     origin: ['http://localhost:3000']
 }));
-
+app.use(morgan('dev'));
 app.use('/api', router);
 
 app.get('/favicon.ico', (req, res) => res.status(204));
