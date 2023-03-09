@@ -21,3 +21,28 @@ export const addExpense = async (req, res, next) => {
     }
 }
 
+
+export const getAllExpenses = async (req, res, next) => {
+    try {
+
+        const expense = await Expense.find({});
+        return res.status(200).json({ message: "Expense fetched", data: expense, code: 200 });
+    } catch (err) {
+        next(err);
+    }
+}
+
+export const deleteExpenseById = async (req, res, next) => {
+    try {
+        const id = req.params.id;
+        const expense = await Expense.deleteOne({ _id: id });
+        console.log(expense);
+        if (expense.deletedCount === 0) {
+            throw new APIError("Item Not Found", 404);
+        }
+        return res.status(200).json({ message: "Expense deleted", code: 200 });
+    } catch (err) {
+        next(err)
+    }
+}
+
